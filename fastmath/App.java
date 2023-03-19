@@ -2,6 +2,9 @@ package fastmath;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -12,6 +15,7 @@ public class App extends script {
     // indexComponents
     private JLabel lbLogoGame;
     private JLabel lbBestScore;
+    private JLabel lbLastScore;
     private JButton bPlay;
     private JButton bCredit;
 
@@ -67,14 +71,17 @@ public class App extends script {
         lbLogoGame.setIcon(new ImageIcon("fastmath/logo.gif"));
 
         lbBestScore = new JLabel("BEST SCORE : 0", SwingConstants.CENTER);
+        lbLastScore = new JLabel("LAST SCORE : 0", SwingConstants.CENTER);
 
         bPlay = new JButton("PLAY");
         bCredit = new JButton("CREDIT");
 
         lbBestScore.setFont(new Font("Serif", Font.BOLD, 20));
+        lbLastScore.setFont(new Font("Serif", Font.BOLD, 13));
 
         lbLogoGame.setPreferredSize(new Dimension(400, 200));
-        lbBestScore.setPreferredSize(new Dimension(500, 100));
+        lbBestScore.setPreferredSize(new Dimension(500, 30));
+        lbLastScore.setPreferredSize(new Dimension(500, 30));
         bPlay.setPreferredSize(new Dimension(500, 100));
         bCredit.setPreferredSize(new Dimension(500, 100));
 
@@ -99,6 +106,16 @@ public class App extends script {
             }
         });
 
+        bCredit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                try {
+                    Desktop.getDesktop().browse(new URI("https://github.com/BossNz/miniProject_fastMath"));
+                } catch (IOException | URISyntaxException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         setTimeOut();
 
     }
@@ -116,6 +133,7 @@ public class App extends script {
     private void indexComponents() {
         f.add(lbLogoGame);
         f.add(lbBestScore);
+        f.add(lbLastScore);
         f.add(bPlay);
         f.add(bCredit);
         f.setVisible(true);
@@ -153,13 +171,14 @@ public class App extends script {
     private void endGame() {
         removeComponent();
         bestScore = score > bestScore ? score : bestScore;
-        lbBestScore.setText("BEST SCORE : " + score);
+        lbLastScore.setText("LAST SCORE : " + score);
+        lbBestScore.setText("BEST SCORE : " + bestScore);
         isEnd = true;
         indexComponents();
     }
 
     private void setTimeOut() {
-        Runnable helloRunnable = new Runnable() {
+        Runnable ScheduleTimeOut = new Runnable() {
             public void run() {
                 if (!isEnd) {
                     if (timeout == 0) {
@@ -173,7 +192,7 @@ public class App extends script {
         };
 
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-        executor.scheduleAtFixedRate(helloRunnable, 0, 1, TimeUnit.SECONDS);
+        executor.scheduleAtFixedRate(ScheduleTimeOut, 0, 1, TimeUnit.SECONDS);
     }
 
     private void bPlayActionPerformed(java.awt.event.ActionEvent evt) {

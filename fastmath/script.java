@@ -8,29 +8,19 @@ public class script {
     private int number1;
     private int number2;
 
-    // public static void main(String[] args) {
-    //     script s = new script();
-    //     s.test();
-    // }
-
-    // private void test() {
-    //     System.out.println(generateQuestion(1));
-    //     System.out.println(Arrays.toString(getAnswerList()));
-    // }
-
     public String generateQuestion(int lv) {
         switch (lv) {
             case 3:
-                number1 = randomNumber(50, 300);
-                number2 = randomNumber(50, 300);
+                number1 = randomNumber(10, 300);
+                number2 = randomNumber(10, 300);
                 break;
             case 4:
                 number1 = randomNumber(200, 500);
                 number2 = randomNumber(200, 500);
                 break;
             default:
-                number1 = randomNumber(1, 50);
-                number2 = randomNumber(1, 50);
+                number1 = randomNumber(1, 100);
+                number2 = randomNumber(1, 100);
         }
 
         int operationLevel = randomNumber(1, lv);
@@ -44,10 +34,12 @@ public class script {
                 question = number1 + " - " + number2;
                 break;
             case 3:
+                number2 = randomNumber(1, 9);
                 answer = number1 * number2;
                 question = number1 + " x " + number2;
                 break;
             case 4:
+                number2 = randomNumber(1, 9);
                 answer = number1 / number2;
                 question = number1 + " ÷ " + number2;
                 break;
